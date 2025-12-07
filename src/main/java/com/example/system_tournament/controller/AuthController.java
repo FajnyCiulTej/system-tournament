@@ -5,7 +5,9 @@ import com.example.system_tournament.dto.RegisterRequest;
 import com.example.system_tournament.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,14 +30,36 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request, HttpServletRequest httpRequest) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest) {
+
+        try {
+            httpRequest.logout();
+        } catch (Exception ignored) {}
 
         try {
             httpRequest.login(request.getUsername(), request.getPassword());
-            return "Zalogowano pomyslnie";
+            return ResponseEntity.ok("Zalogowano pomyślnie.");
         } catch (ServletException e) {
-            return "Błedny login lub haslo";
+            return ResponseEntity.status(401).body("Nieprawidłowy login lub hasło.");
         }
     }
+
+    @RestController
+    @RequestMapping("/auth")
+    public class LogoutController {
+
+        @PostMapping("/logout")
+        public String logout(HttpServletRequest request) {
+
+            HttpSession session = request.getSession(false);
+
+            if (session != null) {
+                session.invalidate();
+            }
+
+            return "Wylogowano";
+        }
+    }
+
 
 }
