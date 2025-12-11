@@ -18,15 +18,9 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) {
-
-        String result = userService.register(request.getUsername(), request.getPassword());
-
-        return switch (result) {
-            case "USER_EXISTS" -> "Użytkownik o takiej nazwie już istnieje.";
-            case "SUCCESS" -> "Rejestracja zakończona sukcesem.";
-            default -> "Błąd rejestracji.";
-        };
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+        userService.register(request.getUsername(), request.getPassword());
+        return ResponseEntity.ok("Rejestracja zakończona sukcesem.");
     }
 
     @PostMapping("/login")
@@ -44,22 +38,14 @@ public class AuthController {
         }
     }
 
-    @RestController
-    @RequestMapping("/auth")
-    public class LogoutController {
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
 
-        @PostMapping("/logout")
-        public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
 
-            HttpSession session = request.getSession(false);
+        if (session != null) session.invalidate();
 
-            if (session != null) {
-                session.invalidate();
-            }
-
-            return "Wylogowano";
-        }
+        return ResponseEntity.ok("Wylogowano");
     }
-
-
 }
+

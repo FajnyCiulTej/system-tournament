@@ -1,5 +1,6 @@
 package com.example.system_tournament.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Set;
@@ -20,9 +21,11 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",

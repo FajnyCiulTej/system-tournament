@@ -4,25 +4,27 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Getter @Setter
-public class Team {
+public class Match {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String teamName;
+    @ManyToOne
+    private Tournament tournament;
 
     @ManyToOne
-    private User captain;
+    private Team teamA;
 
-    @ManyToMany
-    @JoinTable(name = "team_players")
-    private List<User> players;
+    @ManyToOne
+    private Team teamB;
 
-    private int points = 0;
+    @ManyToOne
+    private Team winner;
+
+    private int round;
+
+    private boolean finished = false;
 }
