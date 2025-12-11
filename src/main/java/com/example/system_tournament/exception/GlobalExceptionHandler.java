@@ -15,7 +15,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleOther(Exception ex) {
+        ex.printStackTrace(); // <-- TO WYPISZE PRAWDZIWY BŁĄD DO LOGÓW
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Wystąpił nieoczekiwany błąd.");
+                .body(ex.getMessage());
     }
 }
