@@ -36,4 +36,3 @@ public class TeamAdminController {
         return ResponseEntity.ok("Zgłoszenie zostało odrzucone.");
     }
 }
-

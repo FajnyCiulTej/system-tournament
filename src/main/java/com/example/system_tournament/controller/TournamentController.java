@@ -49,6 +49,4 @@ public class TournamentController {
     public List<Tournament> getAllTournaments() {
         return tournamentRepository.findAll();
     }
-    
 }
-

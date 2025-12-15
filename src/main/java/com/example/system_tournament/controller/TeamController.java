@@ -22,10 +22,8 @@ public class TeamController {
     @PostMapping("/request")
     public ResponseEntity<String> createTeamRequest(@RequestBody TeamRequestDto dto,
                                                     Authentication authentication) {
-
         String captain = authentication.getName();
         teamService.createTeamRequest(captain, dto);
-
         return ResponseEntity.ok("Zgłoszenie zostało wysłane.");
     }
 
@@ -34,4 +32,3 @@ public class TeamController {
         return teamRepository.findAll();
     }
 }
-

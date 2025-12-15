@@ -26,9 +26,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest) {
 
-        try {
-            httpRequest.logout();
-        } catch (Exception ignored) {}
+        try { httpRequest.logout(); } catch (Exception ignored) {}
 
         try {
             httpRequest.login(request.getUsername(), request.getPassword());
@@ -40,12 +38,8 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
-
         HttpSession session = request.getSession(false);
-
         if (session != null) session.invalidate();
-
         return ResponseEntity.ok("Wylogowano");
     }
 }
-
