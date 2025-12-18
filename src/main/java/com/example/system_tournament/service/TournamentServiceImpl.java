@@ -9,6 +9,8 @@ import com.example.system_tournament.repository.PlayerStatsRepository;
 import com.example.system_tournament.repository.TeamRepository;
 import com.example.system_tournament.repository.TournamentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -195,5 +197,16 @@ public class TournamentServiceImpl implements TournamentService {
 
             playerStatsRepository.save(stats);
         }
+    }
+
+    @Override
+    public Page<Tournament> getTournaments(Pageable pageable) {
+        return tournamentRepository.findAll(pageable);
+    }
+
+    @Override
+    public Tournament getTournamentById(Long id) {
+        return tournamentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Turniej nie istnieje"));
     }
 }

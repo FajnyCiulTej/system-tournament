@@ -12,6 +12,8 @@ import com.example.system_tournament.repository.TeamRepository;
 import com.example.system_tournament.repository.TeamRequestRepository;
 import com.example.system_tournament.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -121,4 +123,10 @@ public class TeamServiceImpl implements TeamService {
         request.setStatus(TeamStatus.REJECTED);
         teamRequestRepository.save(request);
     }
+
+    @Override
+    public Page<Team> getTeams(Pageable pageable) {
+        return teamRepository.findAll(pageable);
+    }
+
 }
